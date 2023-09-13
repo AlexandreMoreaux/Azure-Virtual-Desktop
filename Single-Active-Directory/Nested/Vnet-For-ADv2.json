@@ -118,19 +118,7 @@
               "properties": {
                 "addressPrefix": "[parameters('AdConnectsubnetRange')]"
               }
-            },  
-            {
-              "name": "[parameters('HostssubnetName')]",
-              "properties": {
-                "addressPrefix": "[parameters('HostssubnetRange')]"
-              }
-            },
-            {
-              "name": "[parameters('BastionsubnetName')]",
-              "properties": {
-                "addressPrefix": "[parameters('BastionsubnetRange')]"
-              }
-            }
+            } 
           ]
         }
       },
@@ -150,12 +138,6 @@
               "name": "[parameters('HostssubnetName')]",
               "properties": {
                 "addressPrefix": "[parameters('HostssubnetRange')]"
-              }
-            },
-            {
-              "name": "[parameters('BastionsubnetName')]",
-              "properties": {
-                "addressPrefix": "[parameters('BastionsubnetRange')]"
               }
             }
           ]
