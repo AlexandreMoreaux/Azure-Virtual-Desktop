@@ -242,7 +242,10 @@
     },
     "variables": {
         "VnetForADTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-For-AD-With-Bastion.json",
-        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-With-DNS-For-AD-With-Bastion.json"
+        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-With-DNS-For-AD-With-Bastion.json",
+        "ADOUTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/OrganizationUnit/ou.ps1",
+        "InstallationADConnectTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/AzureAdConnect/Installationadconnect.ps1",
+        "ADPDCTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/DSC/CreateADPDC.zip"
     },
     "resources": [
         {
@@ -442,7 +445,7 @@
                         "typeHandlerVersion": "2.19",
                         "autoUpgradeMinorVersion": true,
                         "settings": {
-                            "ModulesUrl": "https://raw.githubusercontent.com/Pierre-Chesne/QuickStart-WindowsVirtualDesktop/master/Prerequis/DSC/CreateADPDC.zip",
+                            "ModulesUrl": "[variables('ADPDCTemplateUri')]",
                             "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
                             "Properties": {
                                 "DomainName": "[parameters('domainName')]",
@@ -579,9 +582,7 @@
                 "type": "CustomScriptExtension",
                 "typeHandlerVersion": "1.9",
                 "settings": {
-                    "fileUris": [
-                        "https://raw.githubusercontent.com/Pierre-Chesne/QuickStart-WindowsVirtualDesktop/master/Prerequis/AzureAdConnect/ou.ps1"
-                    ],
+                    "fileUris": "[variables('ADOUTemplateUri')]",
                     "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ou.ps1', ' -ouUsers ', '\"' , parameters('ouUsers') , '\"', ' -ouHosts ', '\"' , parameters('ouHosts') , '\"') ]"
                 },
                 "protectedSettings": {
@@ -668,10 +669,8 @@
                 "type": "CustomScriptExtension",
                 "typeHandlerVersion": "1.9",
                 "settings": {
-                    "fileUris": [
-                        "https://raw.githubusercontent.com/Pierre-Chesne/QuickStart-WindowsVirtualDesktop/master/Prerequis/AzureAdConnect/Installation.ps1"
-                    ],
-                    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Installation.ps1')]"
+                    "fileUris": "[variables('InstallationADConnectTemplateUri')]",
+                    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Installationadconnect.ps1')]"
 
                 },
                 "protectedSettings": {
