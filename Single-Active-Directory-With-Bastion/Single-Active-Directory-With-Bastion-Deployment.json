@@ -245,7 +245,7 @@
         "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-With-DNS-For-AD-With-Bastion.json",
         "ADOUTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/OrganizationUnit/ou.ps1",
         "InstallationADConnectTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/AzureAdConnect/Installationadconnect.ps1",
-        "ADPDCTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/DSC/CreateADPDC.zip"
+        "ADPDCTemplateUri": "https://github.com/AlexandreMoreaux/Azure-Virtual-Desktop/raw/main/Single-Active-Directory-With-Bastion/DSC/CreateADPDC.zip"
     },
     "resources": [
         {
