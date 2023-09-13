@@ -3,8 +3,8 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "ADvirtualNetworkName": {
-       "type": "string",
-       "metadata": {
+        "type": "string",
+        "metadata": {
           "description": "The name of the Virtual Network to Create"
         }
       },
@@ -15,26 +15,26 @@
         }
       },
       "AVDvirtualNetworkName": {
-       "type": "string",
-       "metadata": {
+        "type": "string",
+        "metadata": {
           "description": "The name of the Virtual Network to Create"
         }
       },
       "AVDvirtualNetworkAddressRange": {
-       "type": "string",
-       "metadata": {
+        "type": "string",
+        "metadata": {
           "description": "The address range of the new VNET in CIDR format"
         }
       },
       "HUBvirtualNetworkName": {
-      "type": "string",
-      "metadata": {
+        "type": "string",
+        "metadata": {
           "description": "The name of the Virtual Network to Create"
         }
-     },
-     "HUBvirtualNetworkAddressRange": {
-      "type": "string",
-      "metadata": {
+      },
+      "HUBvirtualNetworkAddressRange": {
+        "type": "string",
+        "metadata": {
           "description": "The address range of the new VNET in CIDR format"
         }
       },
@@ -87,12 +87,6 @@
           "description": "The address range of the subnet created in the new VNET"
         }
       },
-      "DNSServerAddress": {
-        "type": "array",
-        "metadata": {
-          "description": "The DNS address(es) of the DNS Server(s) used by the VNET"
-        }
-      },
       "location": {
         "type": "string",
         "metadata": {
@@ -112,9 +106,6 @@
               "[parameters('ADvirtualNetworkAddressRange')]"
             ]
           },
-          "dhcpOptions": {
-            "dnsServers": "[parameters('DNSServerAddress')]"
-          },
           "subnets": [
             {
               "name": "[parameters('AdsubnetName')]",
@@ -123,28 +114,10 @@
               }
             },
             {
-                "name": "[parameters('AdConnectsubnetName')]",
-                "properties": {
-                  "addressPrefix": "[parameters('AdConnectsubnetRange')]"
-                }
-              },
-            {
-              "name": "[parameters('HostssubnetName')]",
+              "name": "[parameters('AdConnectsubnetName')]",
               "properties": {
-                "addressPrefix": "[parameters('HostssubnetRange')]"
+                "addressPrefix": "[parameters('AdConnectsubnetRange')]"
               }
-            },
-            {
-              "name": "[parameters('BastionsubnetName')]",
-              "properties": {
-                "addressPrefix": "[parameters('BastionsubnetRange')]"
-              }
-            },
-            {
-                "name": "[parameters('BastionsubnetName')]",
-                "properties": {
-                  "addressPrefix": "[parameters('BastionsubnetRange')]"
-                }
             }
           ]
         }
@@ -160,10 +133,7 @@
               "[parameters('AVDvirtualNetworkAddressRange')]"
             ]
           },
-          "dhcpOptions": {
-            "dnsServers": "[parameters('DNSServerAddress')]"
-          },
-          "subnets": [
+          "subnets": [ 
             {
               "name": "[parameters('HostssubnetName')]",
               "properties": {
@@ -184,21 +154,12 @@
               "[parameters('HUBvirtualNetworkAddressRange')]"
             ]
           },
-          "dhcpOptions": {
-            "dnsServers": "[parameters('DNSServerAddress')]"
-          },
-          "subnets": [
+          "subnets": [ 
             {
               "name": "[parameters('BastionsubnetName')]",
               "properties": {
                 "addressPrefix": "[parameters('BastionsubnetRange')]"
               }
-            },
-            {
-                "name": "[parameters('BastionsubnetName')]",
-                "properties": {
-                  "addressPrefix": "[parameters('BastionsubnetRange')]"
-                }
             }
           ]
         }
