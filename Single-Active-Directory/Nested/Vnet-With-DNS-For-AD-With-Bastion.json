@@ -1,0 +1,204 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "ADvirtualNetworkName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the Virtual Network to Create"
+        }
+      },
+      "ADvirtualNetworkAddressRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the new VNET in CIDR format"
+        }
+      },
+      "AVDvirtualNetworkName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the Virtual Network to Create"
+        }
+      },
+      "AVDvirtualNetworkAddressRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the new VNET in CIDR format"
+        }
+      },
+      "HUBvirtualNetworkName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the Virtual Network to Create"
+        }
+      },
+      "HUBvirtualNetworkAddressRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the new VNET in CIDR format"
+        }
+      },
+      "AdsubnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The name of the subnet created in the new VNET"
+        }
+      },
+      "AdsubnetRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "AdConnectsubnetName": {
+        "type": "string",
+        "defaultValue": "AD-Connect-Subnet",
+        "metadata": {
+            "description": "Subnet name."
+        }
+      },
+      "AdConnectsubnetRange": {
+        "type": "string",
+        "metadata": {
+            "description": "Subnet IP range."
+        }
+      },
+      "HostssubnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "HostssubnetRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "BastionsubnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "BastionsubnetRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+            "GatewaysubnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "GatewaysubnetRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "FirewallsubnetName": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "FirewallsubnetRange": {
+        "type": "string",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+        }
+      },
+      "location": {
+        "type": "string",
+        "metadata": {
+          "description": "Location for all resources."
+        }
+      }
+    },
+    "resources": [
+      {
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[parameters('ADvirtualNetworkName')]",
+        "apiVersion": "2019-02-01",
+        "location": "[parameters('location')]",
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "[parameters('ADvirtualNetworkAddressRange')]"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "[parameters('AdsubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('AdsubnetRange')]"
+              }
+            },
+            {
+              "name": "[parameters('AdConnectsubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('AdConnectsubnetRange')]"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[parameters('AVDvirtualNetworkName')]",
+        "apiVersion": "2019-02-01",
+        "location": "[parameters('location')]",
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "[parameters('AVDvirtualNetworkAddressRange')]"
+            ]
+          },
+          "subnets": [ 
+            {
+              "name": "[parameters('HostssubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('HostssubnetRange')]"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "Microsoft.Network/virtualNetworks",
+        "name": "[parameters('HUBvirtualNetworkName')]",
+        "apiVersion": "2019-02-01",
+        "location": "[parameters('location')]",
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "[parameters('HUBvirtualNetworkAddressRange')]"
+            ]
+          },
+          "subnets": [ 
+            {
+              "name": "[parameters('BastionsubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('BastionsubnetRange')]"
+              }
+            },
+            {
+              "name": "[parameters('GatewaysubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('GatewaysubnetRange')]"
+              }
+            },
+            {
+              "name": "[parameters('FirewallsubnetName')]",
+              "properties": {
+                "addressPrefix": "[parameters('FirewallsubnetRange')]"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
