@@ -234,11 +234,11 @@
         }
     },
     "variables": {
-        "VnetForADTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-For-AD-With-Bastion.json",
-        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-With-DNS-For-AD-With-Bastion.json",
-        "ADOUTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/OrganizationUnit/ou.ps1",
-        "InstallationADConnectTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/AzureAdConnect/Installationadconnect.ps1",
-        "ADPDCTemplateUri": "https://github.com/AlexandreMoreaux/Azure-Virtual-Desktop/raw/main/Single-Active-Directory-With-Bastion/DSC/CreateADPDC.zip"
+        "VnetForADTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-Without-Bastion/Nested/Vnet-For-AD-Without-Bastion.json",
+        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-Without-Bastion/Nested/Vnet-With-DNS-For-AD-Without-Bastion.json",
+        "ADOUTemplateUri" : "https://github.com/AlexandreMoreaux/Azure-Virtual-Desktop/blob/main/Single-Active-Directory-Without-Bastion/OrganizationUnit/ou.ps1",
+        "InstallationADConnectTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-Without-Bastion/AzureAdConnect/Installationadconnect.ps1",
+        "ADPDCTemplateUri": "https://github.com/AlexandreMoreaux/Azure-Virtual-Desktop/raw/main/Single-Active-Directory-Without-Bastion/DSC/CreateADPDC.zip"
     },
     "resources": [
         {
