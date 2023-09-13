@@ -1,0 +1,649 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Location for all resources."
+            }
+        },
+        "adminUsername": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The name of the administrator account of the new VM and domain"
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "The password for the administrator account of the new VM and domain"
+            }
+        },
+        "domainName": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "The FQDN of the Active Directory Domain to be created"
+            }
+        },
+        "ouUsers": {
+            "type": "string",
+            "defaultValue": "AVD-Users",
+            "metadata": {
+                "description": "OU Users AVD name"
+            }
+        },
+        "ouHosts": {
+            "type": "string",
+            "defaultValue": "AVD-Hosts",
+            "metadata": {
+                "description": "OU Hosts AVD name"
+            }
+        },
+        "AdvirtualMachineName": {
+            "type": "string",
+            "defaultValue": "VM-AD",
+            "metadata": {
+                "description": "Virtual machine name for AD."
+            }
+        },
+        "AdvmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2s_v3",
+            "metadata": {
+                "description": "Size of the VM for the controller"
+            }
+        },
+        "AdnetworkInterfaceName": {
+            "type": "string",
+            "defaultValue": "Ad-Nic",
+            "metadata": {
+                "description": "Network interface name for AD."
+            }
+        },
+        "AdprivateIPAddress": {
+            "type": "string",
+            "defaultValue": "10.0.0.4",
+            "metadata": {
+                "description": "Private IP address for AD."
+            }
+        },
+        "AdConnectvirtualMachineName": {
+            "type": "string",
+            "defaultValue": "VM-AD-Connect",
+            "metadata": {
+                "description": "Virtual machine name for AD Connect."
+            }
+        },
+        "AdConnectvmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2s_v3",
+            "metadata": {
+                "description": "Virtual machine name for AD Connect."
+            }
+        },
+        "AdConnectnetworkInterfaceName": {
+            "type": "string",
+            "defaultValue": "AD-Connect-Nic",
+            "metadata": {
+                "description": "Network interface name for AD Connect."
+            }
+        },
+        "AdConnectprivateIPAddress": {
+            "type": "string",
+            "defaultValue": "10.0.1.4",
+            "metadata": {
+                "description": "Private IP address for AD Connect."
+            }
+        },
+        "ADvirtualNetworkName": {
+            "type": "string",
+            "defaultValue": "AD-VNET",
+            "metadata": {
+                "description": "Virtual network name."
+            }
+        },
+        "ADvirtualNetworkAddressRange": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/16",
+            "metadata": {
+                "description": "Virtual network address range."
+            }
+        },
+        "AVDvirtualNetworkName": {
+            "type": "string",
+            "defaultValue": "AVD-VNET",
+            "metadata": {
+              "description": "The name of the Virtual Network to Create"
+            }
+        },
+        "AVDvirtualNetworkAddressRange": {
+            "type": "string",
+            "defaultValue": "20.0.0.0/16",
+            "metadata": {
+              "description": "The address range of the new VNET in CIDR format"
+            }
+        },
+        "HUBvirtualNetworkName": {
+            "type": "string",
+            "defaultValue": "HUB-VNET",
+            "metadata": {
+              "description": "The name of the Virtual Network to Create"
+            }
+        },
+        "HUBvirtualNetworkAddressRange": {
+            "type": "string",
+            "defaultValue": "30.0.0.0/16",
+            "metadata": {
+              "description": "The address range of the new VNET in CIDR format"
+            }
+        },
+        "AdsubnetName": {
+            "type": "string",
+            "defaultValue": "ADSubnet",
+            "metadata": {
+                "description": "Subnet name."
+            }
+        },
+        "AdsubnetRange": {
+            "type": "string",
+            "defaultValue": "10.0.0.0/24",
+            "metadata": {
+                "description": "Subnet IP range."
+            }
+        },
+        "AdConnectsubnetName": {
+            "type": "string",
+            "defaultValue": "ADConnectSubnet",
+            "metadata": {
+                "description": "Subnet name."
+            }
+        },
+        "AdConnectsubnetRange": {
+            "type": "string",
+            "defaultValue": "10.0.1.0/24",
+            "metadata": {
+                "description": "Subnet IP range."
+            }
+        },
+        "HostssubnetName": {
+            "type": "string",
+            "defaultValue": "AVDHostsSubnet",
+            "metadata": {
+                "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+        "HostssubnetRange": {
+            "type": "string",
+            "defaultValue": "20.0.0.0/24",
+            "metadata": {
+                "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+        "BastionsubnetName": {
+            "type": "string",
+            "defaultValue": "AzureBastionSubnet",
+            "metadata": {
+                "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+        "BastionsubnetRange": {
+            "type": "string",
+            "defaultValue": "30.0.0.0/24",
+            "metadata": {
+                "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+        "GatewaysubnetName": {
+        "type": "string",
+        "defaultValue": "GatewaySubnet",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+      "GatewaysubnetRange": {
+        "type": "string",
+        "defaultValue": "30.0.1.0/27",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+      "FirewallsubnetName": {
+        "type": "string",
+        "defaultValue": "AzureFirewallSubnet",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+      "FirewallsubnetRange": {
+        "type": "string",
+        "defaultValue": "30.0.2.0/27",
+        "metadata": {
+          "description": "The address range of the subnet created in the new VNET"
+            }
+        },
+        "publicIPAddressName": {
+            "type": "string",
+            "defaultValue": "AVD-Mgt-Public-IP",
+            "metadata": {
+                "description": "Subnet IP range."
+            }
+        }
+    },
+    "variables": {
+        "VnetForADTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-For-AD-With-Bastion.json",
+        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-With-DNS-For-AD-With-Bastion.json",
+        "ADOUTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/OrganizationUnit/ou.ps1",
+        "InstallationADConnectTemplateUri" : "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/AzureAdConnect/Installationadconnect.ps1",
+        "ADPDCTemplateUri": "https://github.com/AlexandreMoreaux/Azure-Virtual-Desktop/raw/main/Single-Active-Directory-With-Bastion/DSC/CreateADPDC.zip"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2019-02-01",
+            "name": "[parameters('publicIPAddressName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard"
+            },
+            "properties": {
+                "publicIPAllocationMethod": "Static"
+            }
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-11-01",
+            "name": "VNet",
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('VnetForADTemplateUri')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "ADvirtualNetworkName": {
+                        "value": "[parameters('ADvirtualNetworkName')]"
+                    },
+                    "ADvirtualNetworkAddressRange": {
+                        "value": "[parameters('ADvirtualNetworkAddressRange')]"
+                    },
+                    "AVDvirtualNetworkName": {
+                        "value": "[parameters('AVDvirtualNetworkName')]"
+                    },
+                    "AVDvirtualNetworkAddressRange": {
+                        "value": "[parameters('AVDvirtualNetworkAddressRange')]"
+                    },
+                    "HUBvirtualNetworkName": {
+                        "value": "[parameters('HUBvirtualNetworkName')]"
+                    },
+                    "HUBvirtualNetworkAddressRange": {
+                        "value": "[parameters('HUBvirtualNetworkAddressRange')]"
+                    },
+                    "AdsubnetName": {
+                        "value": "[parameters('AdsubnetName')]"
+                    },
+                    "AdsubnetRange": {
+                        "value": "[parameters('AdsubnetRange')]"
+                    },
+                    "AdConnectsubnetName": {
+                        "value": "[parameters('AdConnectsubnetName')]"
+                    },
+                    "AdConnectsubnetRange": {
+                        "value": "[parameters('AdConnectsubnetRange')]"
+                    },
+                    "HostssubnetName": {
+                        "value": "[parameters('HostssubnetName')]"
+                    },
+                    "HostssubnetRange": {
+                        "value": "[parameters('HostssubnetRange')]"
+                    },
+                    "BastionsubnetName": {
+                        "value": "[parameters('BastionsubnetName')]"
+                    },
+                    "BastionsubnetRange": {
+                        "value": "[parameters('BastionsubnetRange')]"
+                    },
+                    "GatewaysubnetName": {
+                        "value": "[parameters('GatewaysubnetName')]"
+                    },
+                    "GatewaysubnetRange": {
+                        "value": "[parameters('GatewaysubnetRange')]"
+                    },
+                    "FirewallsubnetName": {
+                        "value": "[parameters('FirewallsubnetName')]"
+                    },
+                    "FirewallsubnetRange": {
+                        "value": "[parameters('FirewallsubnetRange')]"
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-02-01",
+            "name": "[parameters('AdnetworkInterfaceName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "[parameters('AdprivateIPAddress')]",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('ADvirtualNetworkName'), parameters('AdsubnetName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-02-01",
+            "name": "[parameters('AdConnectnetworkInterfaceName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "ipconfig1",
+                        "properties": {
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "[parameters('AdConnectprivateIPAddress')]",
+                            "subnet": {
+                                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('ADvirtualNetworkName'), parameters('AdConnectsubnetName'))]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('AdvirtualMachineName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[parameters('AdnetworkInterfaceName')]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('AdvmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('AdvirtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[concat(parameters('AdvirtualMachineName'),'_OSDisk')]",
+                        "caching": "ReadOnly",
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "StandardSSD_LRS"
+                        }
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "[concat(parameters('AdvirtualMachineName'), '_DataDisk')]",
+                            "caching": "ReadWrite",
+                            "createOption": "Empty",
+                            "diskSizeGB": 20,
+                            "managedDisk": {
+                                "storageAccountType": "StandardSSD_LRS"
+                            },
+                            "lun": 0
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('AdnetworkInterfaceName'))]"
+                        }
+                    ]
+                }
+            },
+            "resources": [
+                {
+                    "type": "extensions",
+                    "apiVersion": "2019-03-01",
+                    "name": "CreateADForest",
+                    "location": "[parameters('location')]",
+                    "dependsOn": [
+                        "[parameters('AdvirtualMachineName')]"
+                    ],
+                    "properties": {
+                        "publisher": "Microsoft.Powershell",
+                        "type": "DSC",
+                        "typeHandlerVersion": "2.19",
+                        "autoUpgradeMinorVersion": true,
+                        "settings": {
+                            "ModulesUrl": "[variables('ADPDCTemplateUri')]",
+                            "ConfigurationFunction": "CreateADPDC.ps1\\CreateADPDC",
+                            "Properties": {
+                                "DomainName": "[parameters('domainName')]",
+                                "AdminCreds": {
+                                    "UserName": "[parameters('adminUsername')]",
+                                    "Password": "PrivateSettingsRef:AdminPassword"
+                                }
+                            }
+                        },
+                        "protectedSettings": {
+                            "Items": {
+                                "AdminPassword": "[parameters('adminPassword')]"
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "type": "Microsoft.Resources/deployments",
+            "apiVersion": "2018-11-01",
+            "name": "UpdateVNetDNS",
+            "dependsOn": [
+                "CreateADForest"
+            ],
+            "properties": {
+                "mode": "Incremental",
+                "templateLink": {
+                    "uri": "[variables('VnetWithDNSForADTemplateUri')]",
+                    "contentVersion": "1.0.0.0"
+                },
+                "parameters": {
+                    "ADvirtualNetworkName": {
+                        "value": "[parameters('ADvirtualNetworkName')]"
+                    },
+                    "ADvirtualNetworkAddressRange": {
+                        "value": "[parameters('ADvirtualNetworkAddressRange')]"
+                    },
+                    "AVDvirtualNetworkName": {
+                        "value": "[parameters('AVDvirtualNetworkName')]"
+                    },
+                    "AVDvirtualNetworkAddressRange": {
+                        "value": "[parameters('AVDvirtualNetworkAddressRange')]"
+                    },
+                    "HUBvirtualNetworkName": {
+                        "value": "[parameters('HUBvirtualNetworkName')]"
+                    },
+                    "HUBvirtualNetworkAddressRange": {
+                        "value": "[parameters('HUBvirtualNetworkAddressRange')]"
+                    },
+                    "AdsubnetName": {
+                        "value": "[parameters('AdsubnetName')]"
+                    },
+                    "AdsubnetRange": {
+                        "value": "[parameters('AdsubnetRange')]"
+                    },
+                    "AdConnectsubnetName": {
+                        "value": "[parameters('AdConnectsubnetName')]"
+                    },
+                    "AdConnectsubnetRange": {
+                        "value": "[parameters('AdConnectsubnetRange')]"
+                    },
+                    "HostssubnetName": {
+                        "value": "[parameters('HostssubnetName')]"
+                    },
+                    "HostssubnetRange": {
+                        "value": "[parameters('HostssubnetRange')]"
+                    },
+                    "BastionsubnetName": {
+                        "value": "[parameters('BastionsubnetName')]"
+                    },
+                    "BastionsubnetRange": {
+                        "value": "[parameters('BastionsubnetRange')]"
+                    },
+                    "GatewaysubnetName": {
+                        "value": "[parameters('GatewaysubnetName')]"
+                    },
+                    "GatewaysubnetRange": {
+                        "value": "[parameters('GatewaysubnetRange')]"
+                    },
+                    "FirewallsubnetName": {
+                        "value": "[parameters('FirewallsubnetName')]"
+                    },
+                    "FirewallsubnetRange": {
+                        "value": "[parameters('FirewallsubnetRange')]"
+                    },
+                    "DNSServerAddress": {
+                        "value": [
+                            "[parameters('AdprivateIPAddress')]"
+                        ]
+                    },
+                    "location": {
+                        "value": "[parameters('location')]"
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-03-01",
+            "name": "[concat(parameters('AdvirtualMachineName'), '/OU')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.9",
+                "settings": {
+                    "fileUris": "[variables('ADOUTemplateUri')]",
+                    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File ou.ps1', ' -ouUsers ', '\"' , parameters('ouUsers') , '\"', ' -ouHosts ', '\"' , parameters('ouHosts') , '\"') ]"
+                },
+                "protectedSettings": {
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-03-01",
+            "name": "[parameters('AdConnectvirtualMachineName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('AdConnectvmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('AdConnectvirtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "2019-Datacenter",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "[concat(parameters('AdConnectvirtualMachineName'),'_OSDisk')]",
+                        "caching": "ReadOnly",
+                        "createOption": "FromImage",
+                        "managedDisk": {
+                            "storageAccountType": "StandardSSD_LRS"
+                        }
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('AdConnectnetworkInterfaceName'))]"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-03-01",
+            "name": "[concat(parameters('AdConnectvirtualMachineName'),'/joindomain')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[parameters('AdConnectvirtualMachineName')]"
+            ],
+            "properties": {
+                "publisher": "Microsoft.Compute",
+                "type": "JsonADDomainExtension",
+                "typeHandlerVersion": "1.3",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                    "Name": "[parameters('domainName')]",
+                    "User": "[concat(parameters('domainName'), '\\', parameters('adminUsername'))]",
+                    "Restart": "true",
+                    "Options": "3"
+                },
+                "protectedSettings": {
+                    "Password": "[parameters('adminPassword')]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2019-03-01",
+            "name": "[concat(parameters('AdConnectvirtualMachineName'), '/AdConnect')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Compute/virtualMachines/', parameters('AdConnectvirtualMachineName'),'/extensions/joindomain')]"
+            ],
+            "properties": {
+                "autoUpgradeMinorVersion": true,
+                "publisher": "Microsoft.Compute",
+                "type": "CustomScriptExtension",
+                "typeHandlerVersion": "1.9",
+                "settings": {
+                    "fileUris": "[variables('InstallationADConnectTemplateUri')]",
+                    "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Installationadconnect.ps1')]"
+
+                },
+                "protectedSettings": {
+                }
+            }
+        }
+    ]
+}

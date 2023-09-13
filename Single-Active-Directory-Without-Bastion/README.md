@@ -1,0 +1,1 @@
+[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Single-Active-Directory-With-Bastion-Deployment.json)
