@@ -241,8 +241,8 @@
         }
     },
     "variables": {
-        "VnetForADTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory/Nested/Vnet-For-ADv2.json",
-        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory/Nested/Vnet-With-DNS-For-ADv2.json"
+        "VnetForADTemplateUri": "https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-For-AD-With-Bastion.json",
+        "VnetWithDNSForADTemplateUri":"https://raw.githubusercontent.com/AlexandreMoreaux/Azure-Virtual-Desktop/main/Single-Active-Directory-With-Bastion/Nested/Vnet-With-DNS-For-AD-With-Bastion.json"
     },
     "resources": [
         {
