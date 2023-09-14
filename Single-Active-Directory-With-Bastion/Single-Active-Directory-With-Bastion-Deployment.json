@@ -671,9 +671,116 @@
                 "settings": {
                     "fileUris": "[variables('InstallationADConnectTemplateUri')]",
                     "commandToExecute": "[concat('powershell.exe -ExecutionPolicy Unrestricted -File Installationadconnect.ps1')]"
-
                 },
                 "protectedSettings": {
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "name":"[concat(parameters('HUBvirtualNetworkName'), '/peering_', parameters('ADvirtualNetworkName'), '_', parameters('HUBvirtualNetworkName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet",
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('ADvirtualNetworkName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "name":"[concat(parameters('ADvirtualNetworkName'), '/peering_', parameters('HUBvirtualNetworkName'), '_', parameters('ADvirtualNetworkName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet",
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('HUBvirtualNetworkName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "name":"[concat(parameters('HUBvirtualNetworkName'), '/peering_', parameters('AVDvirtualNetworkName'), '_', parameters('HUBvirtualNetworkName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet",
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('AVDvirtualNetworkName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "name":"[concat(parameters('AVDvirtualNetworkName'), '/peering_', parameters('HUBvirtualNetworkName'), '_', parameters('AVDvirtualNetworkName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet",
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('HUBvirtualNetworkName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "name":"[concat(parameters('ADvirtualNetworkName'), '/peering_', parameters('AVDvirtualNetworkName'), '_', parameters('ADvirtualNetworkName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet",
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('AVDvirtualNetworkName'))]"
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworks/virtualNetworkPeerings",
+            "apiVersion": "2019-11-01",
+            "name":"[concat(parameters('AVDvirtualNetworkName'), '/peering_', parameters('ADvirtualNetworkName'), '_', parameters('AVDvirtualNetworkName'))]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "VNet",
+                "UpdateVNetDNS"
+            ],
+            "properties": {
+                "allowForwardedTraffic": false,
+                "allowGatewayTransit": false,
+                "allowVirtualNetworkAccess": true,
+                "remoteVirtualNetwork": {
+                    "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('ADvirtualNetworkName'))]"
                 }
             }
         }
