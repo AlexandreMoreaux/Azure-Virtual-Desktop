@@ -227,12 +227,12 @@
         "AzureFirewallSubnetName": "AzureFirewallSubnet",
         "AzureVPNGatewaySubnetName": "GatewaySubnet",
         "AzureBastionSubnetName": "AzureBastionSubnet",
-        "BastionpublicIPAddressName": "Azure-Bastion-Public-Ip"
+        "BastionpublicIPAddressName": "AzureBastionPublicIp"
     },
     "resources": [
         {
-            "condition": "[equals(parameters('DeployanAzureBastion'), 'true')]",
             "type": "Microsoft.Network/publicIPAddresses",
+            "condition": "[equals(parameters('DeployanAzureBastion'), true)]",
             "apiVersion": "2019-02-01",
             "name": "[variables('BastionpublicIPAddressName')]",
             "location": "[parameters('location')]",
@@ -531,8 +531,8 @@
             }
         },
         {
-            "condition": "[equals(parameters('DeployanAzureBastion'), 'true')]",
             "type": "Microsoft.Network/bastionHosts",
+            "condition": "[equals(parameters('DeployanAzureBastion'), true)]",
             "apiVersion": "2019-04-01",
             "name": "[parameters('bastion-host-name')]",
             "location": "[parameters('location')]",
