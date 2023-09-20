@@ -2,12 +2,6 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-        "DeployanAzureBastion": {
-            "type": "bool",
-            "metadata": {
-                "description": "true the script will deploy an Azure Bastion false the deployments will be done without Bastion"
-            }
-        },
         "location": {
             "type": "string",
             "defaultValue": "[resourceGroup().location]",
@@ -227,12 +221,16 @@
         "AzureFirewallSubnetName": "AzureFirewallSubnet",
         "AzureVPNGatewaySubnetName": "GatewaySubnet",
         "AzureBastionSubnetName": "AzureBastionSubnet",
-        "BastionpublicIPAddressName": "AzureBastionPublicIp"
+        "BastionpublicIPAddressName": "Azure-Bastion-Public-Ip",
+        "VPNGatewayName": "VPN-Gateway",
+        "VPNGatewaypublicIPAddressName": "VPN-Public-Ip",
+        "VPNType": "RouteBased",
+        "VPNSku": "VpnGw1"
+        
     },
     "resources": [
         {
             "type": "Microsoft.Network/publicIPAddresses",
-            "condition": "[equals(parameters('DeployanAzureBastion'), true)]",
             "apiVersion": "2019-02-01",
             "name": "[variables('BastionpublicIPAddressName')]",
             "location": "[parameters('location')]",
@@ -241,6 +239,15 @@
             },
             "properties": {
                 "publicIPAllocationMethod": "Static"
+            }
+        },
+        {
+            "type": "Microsoft.Network/publicIPAddresses",
+            "apiVersion": "2019-02-01",
+            "name": "[variables('VPNGatewaypublicIPAddressName')]",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIPAllocationMethod": "Dynamic"
             }
         },
         {
@@ -532,7 +539,6 @@
         },
         {
             "type": "Microsoft.Network/bastionHosts",
-            "condition": "[equals(parameters('DeployanAzureBastion'), true)]",
             "apiVersion": "2019-04-01",
             "name": "[parameters('bastion-host-name')]",
             "location": "[parameters('location')]",
@@ -770,6 +776,38 @@
                 "remoteVirtualNetwork": {
                     "id": "[resourceId('Microsoft.Network/virtualNetworks', parameters('ADvirtualNetworkName'))]"
                 }
+            }
+        },
+        {
+            "type": "Microsoft.Network/virtualNetworkGateways",
+            "apiVersion": "2019-11-01",
+            "name": "[variables('VPNGatewayName')]",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "UpdateVNetDNS",
+                "[variables('VPNGatewaypublicIPAddressName')]"
+            ],
+            "properties": {
+              "ipConfigurations": [
+                {
+                  "properties": {
+                    "privateIPAllocationMethod": "Dynamic",
+                    "publicIPAddress": {
+                      "id" : "[resourceId('Microsoft.Network/publicIpAddresses', variables('VPNGatewaypublicIPAddressName'))]"
+                    },
+                    "subnet": {
+                      "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', parameters('HUBvirtualNetworkName'), variables('AzureVPNGatewaySubnetName'))]"
+                    }
+                },
+                "name": "vnetGatewayConfig"
+            }
+              ],
+              "vpnType": "[variables('VPNType')]",
+              "enableBgp": false,
+              "sku": {
+                "name": "[variables('VPNSku')]",
+                "tier": "[variables('VPNSku')]"
+              }
             }
         }
     ]
