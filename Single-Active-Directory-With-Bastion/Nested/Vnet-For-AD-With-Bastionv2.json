@@ -2,7 +2,7 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
-      "ADvirtualNetworkName": {
+      "AdvirtualMachineName": {
         "type": "string",
         "metadata": {
           "description": "The name of the Virtual Network to Create"
@@ -102,12 +102,13 @@
     "variables": {
       "AzureFirewallSubnetName": "AzureFirewallSubnet",
       "AzureVPNGatewaySubnetName": "GatewaySubnet",
-      "AzureBastionSubnetName": "AzureBastionSubnet"
+      "AzureBastionSubnetName": "AzureBastionSubnet",
+        "ADVnetName": "[concat(parameters('AdvirtualMachineName'),'_VNET')]"
     },
     "resources": [
       {
         "type": "Microsoft.Network/virtualNetworks",
-        "name": "[parameters('ADvirtualNetworkName')]",
+        "name": "[variables('ADVnetName')]",
         "apiVersion": "2019-02-01",
         "location": "[parameters('location')]",
         "properties": {
