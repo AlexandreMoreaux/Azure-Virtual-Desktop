@@ -103,7 +103,7 @@
       "AzureFirewallSubnetName": "AzureFirewallSubnet",
       "AzureVPNGatewaySubnetName": "GatewaySubnet",
       "AzureBastionSubnetName": "AzureBastionSubnet",
-        "ADVnetName": "[concat(parameters('AdvirtualMachineName'),'_VNET')]"
+      "ADVnetName": "[concat(parameters('AdvirtualMachineName'),'_VNET')]"
     },
     "resources": [
       {

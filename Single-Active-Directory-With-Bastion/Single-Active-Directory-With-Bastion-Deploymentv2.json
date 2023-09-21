@@ -220,12 +220,7 @@
                 "VpnGw5"
             ],
             "metadata": {
-                "description": "VPN Gateway SKU
-                VpnGw1 = 650 Mbps
-                VpnGw2 = 1 Gbps
-                VpnGw3 = 1,25 Gbps
-                VpnGw4 = 5 Gbps
-                VpnGw5 = 10 Gbps"
+                "description": "VPN Gateway SKU VpnGw1 - 650 Mbps VpnGw2 - 1 Gbps VpnGw3 - 1.25 Gbps VpnGw4 - 5 Gbps VpnGw5 - 10 Gbps"
             }
         }
     },
@@ -309,6 +304,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "AdvirtualMachineName": {
+                        "value": "[parameters('ADvirtualNetworkAddressRange')]"
+                    },
                     "ADvirtualNetworkAddressRange": {
                         "value": "[parameters('ADvirtualNetworkAddressRange')]"
                     },
@@ -518,6 +516,9 @@
                     "contentVersion": "1.0.0.0"
                 },
                 "parameters": {
+                    "AdvirtualMachineName": {
+                        "value": "[parameters('ADvirtualNetworkAddressRange')]"
+                    },
                     "ADvirtualNetworkAddressRange": {
                         "value": "[parameters('ADvirtualNetworkAddressRange')]"
                     },
