@@ -79,7 +79,7 @@
             "type": "string",
             "defaultValue": "Standard_D2s_v3",
             "metadata": {
-                "description": "Size of the VM for the controller"
+                "description": "Size of the VM for the AD VM."
             }
         },
         "AdprivateIPAddress": {
@@ -100,7 +100,7 @@
             "type": "string",
             "defaultValue": "Standard_D2s_v3",
             "metadata": {
-                "description": "Virtual machine name for AD Connect."
+                "description": "Size of the VM for the AD Connect VM."
             }
         },
 
@@ -115,105 +115,98 @@
             "type": "string",
             "defaultValue": "10.0.0.0/16",
             "metadata": {
-                "description": "Virtual network address range."
-            }
-        },
-        "AVDvirtualNetworkName": {
-            "type": "string",
-            "defaultValue": "AVD-VNET",
-            "metadata": {
-              "description": "The name of the Virtual Network to Create"
-            }
-        },
-        "AVDvirtualNetworkAddressRange": {
-            "type": "string",
-            "defaultValue": "20.0.0.0/16",
-            "metadata": {
-              "description": "The address range of the new VNET in CIDR format"
-            }
-        },
-        "HUBvirtualNetworkName": {
-            "type": "string",
-            "defaultValue": "HUB-VNET",
-            "metadata": {
-              "description": "The name of the Virtual Network to Create"
-            }
-        },
-        "HUBvirtualNetworkAddressRange": {
-            "type": "string",
-            "defaultValue": "30.0.0.0/16",
-            "metadata": {
-              "description": "The address range of the new VNET in CIDR format"
+                "description": "AD AD Connect Virtual network address range."
             }
         },
         "AdsubnetName": {
             "type": "string",
             "defaultValue": "ADSubnet",
             "metadata": {
-                "description": "Subnet name."
+            "description": "Subnet name for AD VM."
             }
         },
         "AdsubnetRange": {
             "type": "string",
             "defaultValue": "10.0.0.0/24",
             "metadata": {
-                "description": "Subnet IP range."
+                "description": "Subnet IP range for AD VM."
             }
         },
         "AdConnectsubnetName": {
             "type": "string",
             "defaultValue": "ADConnectSubnet",
             "metadata": {
-                "description": "Subnet name."
+                "description": "Subnet name for AD Connect VM."
             }
         },
         "AdConnectsubnetRange": {
             "type": "string",
             "defaultValue": "10.0.1.0/24",
             "metadata": {
-                "description": "Subnet IP range."
+                "description": "Subnet IP range for AD Connect VM."
+            }
+        },
+        "AVDvirtualNetworkName": {
+            "type": "string",
+            "defaultValue": "AVD-VNET",
+            "metadata": {
+              "description": "The name of the Virtual Network for the AVD Host"
+            }
+        },
+        "AVDvirtualNetworkAddressRange": {
+            "type": "string",
+            "defaultValue": "20.0.0.0/16",
+            "metadata": {
+              "description": "AVD Virtual network address range"
             }
         },
         "HostssubnetName": {
             "type": "string",
             "defaultValue": "AVDHostsSubnet",
             "metadata": {
-                "description": "The address range of the subnet created in the new VNET"
+                "description": "Subnet name for AVD Host VMs."
             }
         },
         "HostssubnetRange": {
             "type": "string",
             "defaultValue": "20.0.0.0/24",
             "metadata": {
-                "description": "The address range of the subnet created in the new VNET"
+                "description": "Subnet IP range for AVD Host VMs"
+            }
+        },
+        "HUBvirtualNetworkName": {
+            "type": "string",
+            "defaultValue": "HUB-VNET",
+            "metadata": {
+              "description": "The name of the Virtual HUB Network"
+            }
+        },
+        "HUBvirtualNetworkAddressRange": {
+            "type": "string",
+            "defaultValue": "30.0.0.0/16",
+            "metadata": {
+              "description": "HUB Virtual network address range"
             }
         },
         "BastionsubnetRange": {
             "type": "string",
             "defaultValue": "30.0.0.0/24",
             "metadata": {
-                "description": "The address range of the subnet created in the new VNET"
+                "description": "The address range of the Bastion subnet created in the HUB VNET"
             }
         },
         "GatewaysubnetRange": {
             "type": "string",
             "defaultValue": "30.0.1.0/27",
             "metadata": {
-                "description": "The address range of the subnet created in the new VNET"
+                "description": "The address range of the Gateway subnet created in the HUB VNET"
             }
         },
         "FirewallsubnetRange": {
             "type": "string",
             "defaultValue": "30.0.2.0/26",
             "metadata": {
-                "description": "The address range of the subnet created in the new VNET in / 26 mini"
-            }
-        },
-        "bastion-host-name": {
-            "type": "string",
-            "defaultValue": "AVD-Bastion",
-            "metadata": {
-                "description": "Bastion Name"
+                "description": "The address range of the Azure Firewall Subnet created in the HUB VNET in / 26 mini"
             }
         },
         "VPN-Gateway-name": {
@@ -227,7 +220,12 @@
                 "VpnGw5"
             ],
             "metadata": {
-                "description": "Bastion Name"
+                "description": "VPN Gateway SKU
+                VpnGw1 = 650 Mbps
+                VpnGw2 = 1 Gbps
+                VpnGw3 = 1,25 Gbps
+                VpnGw4 = 5 Gbps
+                VpnGw5 = 10 Gbps"
             }
         }
     },
@@ -248,6 +246,7 @@
         "azureFirewallTier": "Standard",
         "FirewallNamePolicies": "Azure-Firewall-Policies",
         "FirewallName": "Azure-Firewall",
+        "BastionName": "Azure-Bastion",
         "azureFirewallPolicyTier": "Standard",
         "PublisherWindowsserver": "MicrosoftWindowsServer",
         "OfferWindowsServer": "WindowsServer",
@@ -589,7 +588,7 @@
         {
             "type": "Microsoft.Network/bastionHosts",
             "apiVersion": "2019-04-01",
-            "name": "[parameters('bastion-host-name')]",
+            "name": "[variables('BastionName')]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "UpdateVNetDNS",
