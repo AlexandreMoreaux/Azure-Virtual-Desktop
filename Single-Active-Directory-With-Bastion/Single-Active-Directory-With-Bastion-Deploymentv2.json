@@ -305,7 +305,7 @@
                 },
                 "parameters": {
                     "AdvirtualMachineName": {
-                        "value": "[parameters('ADvirtualNetworkAddressRange')]"
+                        "value": "[parameters('AdvirtualMachineName')]"
                     },
                     "ADvirtualNetworkAddressRange": {
                         "value": "[parameters('ADvirtualNetworkAddressRange')]"
@@ -517,7 +517,7 @@
                 },
                 "parameters": {
                     "AdvirtualMachineName": {
-                        "value": "[parameters('ADvirtualNetworkAddressRange')]"
+                        "value": "[parameters('AdvirtualMachineName')]"
                     },
                     "ADvirtualNetworkAddressRange": {
                         "value": "[parameters('ADvirtualNetworkAddressRange')]"
