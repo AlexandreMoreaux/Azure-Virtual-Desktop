@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<FrxProfileFolderRedirection ExcludeCommonFolders="0">
+
+<Excludes>
+
+<Exclude Copy="0">AppData\Local\_Do not redir in FSLogix</Exclude>
+
+<Exclude Copy="0">AppData\Local\SquirrelTemp</Exclude>
+
+<Exclude Copy="0">AppData\Local\Microsoft\Teams\Current\Locales</Exclude>
+
+<Exclude Copy="0">AppData\Local\Microsoft\Teams\Packages\SquirrelTemp</Exclude>
+
+<Exclude Copy="0">AppData\Local\Microsoft\Teams\current\resources\locales</Exclude>
+
+<Exclude Copy="0">AppData\Local\Microsoft\Teams\Current\Locales</Exclude>
+
+<Exclude Copy="0">AppData\Roaming\Microsoft\Teams\Service Worker\CacheStorage</Exclude>
+
+<Exclude Copy="0">AppData\Roaming\Microsoft\Teams\Application Cache</Exclude>
+
+<Exclude Copy="0">AppData\Roaming\Microsoft\Teams\Cache</Exclude>
+
+<Exclude Copy="0">AppData\Roaming\Microsoft Teams\Logs</Exclude>
+
+<Exclude Copy="0">AppData\Roaming\Microsoft\Teams\media-stack</Exclude>
+
+<Exclude Copy="0">AppData\Local\Microsoft\Teams\meeting-addin\Cache</Exclude>
+
+<Exclude Copy="0">AppData\Local\Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\Logs</Exclude>
+
+<Exclude Copy="0">AppData\Local\Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\PerfLogs</Exclude>
+
+<Exclude Copy="0">AppData\Local\Packages\MSTeams_8wekyb3d8bbwe\LocalCache\Microsoft\MSTeams\EBWebView\WV2Profile_tfw\WebStorage</Exclude>
+
+</Excludes>
+
+<Includes>
+
+</Includes>
+
+</FrxProfileFolderRedirection>
